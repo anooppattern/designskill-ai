@@ -98,7 +98,7 @@ export default function Home() {
 
         {loading ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
-            {[...Array(8)].map((_, i) => (
+            {[...Array(session ? 8 : 4)].map((_, i) => (
               <div
                 key={i}
                 className="bg-zinc-900 border border-zinc-800 rounded-xl overflow-hidden animate-pulse"
@@ -126,7 +126,22 @@ export default function Home() {
             ))}
           </div>
         ) : (
-          <GalleryGrid extractions={extractions} />
+          <>
+            <GalleryGrid extractions={session ? extractions : extractions.slice(0, 4)} />
+            {!session && extractions.length > 4 && (
+              <div className="mt-8 text-center">
+                <Link
+                  href="/auth/signin"
+                  className="inline-flex items-center gap-2 px-5 py-2.5 bg-zinc-800 hover:bg-zinc-700 text-zinc-300 hover:text-white font-medium rounded-xl text-sm transition-colors border border-zinc-700"
+                >
+                  Sign in to see all design systems
+                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                  </svg>
+                </Link>
+              </div>
+            )}
+          </>
         )}
       </section>
 
